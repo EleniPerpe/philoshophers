@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/09 18:19:11 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/09 18:37:32 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int init_args(int argc, char **argv, t_data *data);
 int init_mutexes(t_data *data);
+void init_philosophers(t_data *data);
 
 int main (int argc, char **argv)
 {
@@ -54,6 +55,7 @@ int init_args(int argc, char **argv, t_data *data)
 		return (1);
 	if (!(init_mutexes(data)))
 		return (2);
+	init_philosophers(data);
 	return (0);
 }
 int init_mutexes(t_data *data)
@@ -70,4 +72,19 @@ int init_mutexes(t_data *data)
 	if (pthread_mutex_init(&(data->printing), NULL))
 		return (0);
 	return (1);
+}
+void init_philosophers(t_data *data)
+{
+	int i;
+
+	i = 1;
+	memset(&data->philosophers, 0, sizeof(data->philosophers));
+	while (i <= data->number_of_philo)
+	{
+		data->philosophers[i].id = i;
+		data->philosophers[i].left_fork = i;
+		data->philosophers[i].right_fork = (i + 1) % data->number_of_philo;
+		data->philosophers[i].data = data;
+		i++;
+	}
 }

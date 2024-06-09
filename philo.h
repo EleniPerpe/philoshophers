@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/09 18:19:06 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/09 18:39:49 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,19 @@
 #include <sys/time.h>
 #include <string.h>
 
+
+typedef struct s_philosopher
+{
+	int				id;
+	int				times_ate;
+	int				left_fork;
+	int				right_fork;
+	int				last_meal_time;
+	struct s_data	*data;
+	pthread_t		thread_id;
+	
+} t_philosopher;
+
 typedef struct s_data
 {
 	int				number_of_philo;
@@ -30,20 +43,10 @@ typedef struct s_data
 	int				dead;
 	long long		first_timestamp;
 	pthread_mutex_t	forks[250];
-	pthread_mutex_t	philoshophers[250];
+	t_philosopher	philosophers[250];
 	pthread_mutex_t	printing;
 } t_data;
 
-typedef struct s_philosopher
-{
-	int				id;
-	int				times_ate;
-	int				left_fork;
-	int				right_fork;
-	struct s_data	*data;
-	pthread_t		thread_id;
-	
-} t_philosopher;
 
 int	ft_atoi(const char *str);
 

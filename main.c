@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/09 18:37:32 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/09 19:45:07 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int main (int argc, char **argv)
 			printf("Fatal error when intializing mutex\n");	
 		return (0);
 	}
+	printf("Time : %lld", get_time());
 	return (1);
 }
 
@@ -75,16 +76,18 @@ int init_mutexes(t_data *data)
 }
 void init_philosophers(t_data *data)
 {
+	t_philosopher *philos;
 	int i;
 
+	philos = data->philosophers;
 	i = 1;
-	memset(&data->philosophers, 0, sizeof(data->philosophers));
+	// memset(&philos, 0, sizeof(philos)); // segfault
 	while (i <= data->number_of_philo)
 	{
-		data->philosophers[i].id = i;
-		data->philosophers[i].left_fork = i;
-		data->philosophers[i].right_fork = (i + 1) % data->number_of_philo;
-		data->philosophers[i].data = data;
+		philos[i].id = i;
+		philos[i].left_fork = i;
+		philos[i].right_fork = (i + 1) % data->number_of_philo;
+		philos[i].data = data;
 		i++;
 	}
 }

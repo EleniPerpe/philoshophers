@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/09 18:39:49 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/09 19:42:56 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_data
 } t_data;
 
 
-int	ft_atoi(const char *str);
+int			ft_atoi(const char *str);
+long long	get_time(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:49:54 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/11 11:59:32 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/11 13:28:33 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int threads(t_data *data)
 	{
 		if (pthread_create(&(philo[i].thread_id), NULL, routine, &(philo[i])))
 			return (3);
+		i++;
 	}
 	return (0);
 }
@@ -32,7 +33,15 @@ int threads(t_data *data)
 void *routine(void *temp_philo)
 {
 	t_philosopher *philo;
+	t_data *data;
+	int a = 0;
 
 	philo = (t_philosopher *)temp_philo;
+	data = philo->data;
+	for (int i = 0; i < 2; i++)
+	{
+		printf("x + 1 : %d\n", a + i);
+	}
+	
 	return (NULL);
 }

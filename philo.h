@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/11 11:59:17 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:04:12 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_data
 	int				dead;
 	long long		first_timestamp;
 	pthread_mutex_t	forks[250];
-	pthread_mutex_t	eating_print;
+	pthread_mutex_t	moves_check;
 	t_philosopher	philosophers[250];
 	pthread_mutex_t	printing;
 } t_data;

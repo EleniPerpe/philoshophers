@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/11 13:29:55 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:19:03 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int main (int argc, char **argv)
 		return (0);
 	}
 	init_philosophers(&data);
-	printf("Time : %lld\n", get_time());
+	// printf("Time : %lld\n", get_time());
 	return (1);
 }
 

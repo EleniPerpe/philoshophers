@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/11 12:04:12 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:27:00 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_data
 	pthread_mutex_t	moves_check;
 	t_philosopher	philosophers[250];
 	pthread_mutex_t	printing;
+	int				all_ate;
 } t_data;
 
 

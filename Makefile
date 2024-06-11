@@ -6,15 +6,20 @@
 #    By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/09 16:46:14 by eperperi          #+#    #+#              #
-#    Updated: 2024/06/09 17:11:16 by eperperi         ###   ########.fr        #
+#    Updated: 2024/06/10 19:52:18 by eperperi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #.SILENT:
 
-CC = cc #-g -fsanitize=address
+CC = cc #-g -fsanitize=thread
+
+
+# valgrind --tool=helgrind
 
 CFLAGS = -Wall -Wextra -Werror
+
+INCLUDE	= -lpthread
 
 SRCS = main.c tools.c
 

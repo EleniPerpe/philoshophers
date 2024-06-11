@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/09 19:42:56 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/11 11:34:54 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_philosopher
 	int				times_ate;
 	int				left_fork;
 	int				right_fork;
-	int				last_meal_time;
+	long long		last_meal_time;
 	struct s_data	*data;
 	pthread_t		thread_id;
 	
@@ -43,6 +43,7 @@ typedef struct s_data
 	int				dead;
 	long long		first_timestamp;
 	pthread_mutex_t	forks[250];
+	pthread_mutex_t	eating_print;
 	t_philosopher	philosophers[250];
 	pthread_mutex_t	printing;
 } t_data;
@@ -50,5 +51,7 @@ typedef struct s_data
 
 int			ft_atoi(const char *str);
 long long	get_time(void);
+long long	time_diff(long long prev, long long pres);
+void		ft_usleep(long long time, t_data *data);
 
 #endif

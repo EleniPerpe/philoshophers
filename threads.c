@@ -6,13 +6,13 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:49:54 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/11 11:55:13 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/11 11:59:32 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void routine(void *temp_philo);
+void *routine(void *temp_philo);
 
 int threads(t_data *data)
 {
@@ -26,9 +26,13 @@ int threads(t_data *data)
 		if (pthread_create(&(philo[i].thread_id), NULL, routine, &(philo[i])))
 			return (3);
 	}
+	return (0);
 }
 
-void routine(void *temp_philo)
+void *routine(void *temp_philo)
 {
-	
+	t_philosopher *philo;
+
+	philo = (t_philosopher *)temp_philo;
+	return (NULL);
 }

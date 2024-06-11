@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/11 11:34:54 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/11 11:43:37 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_data
 
 int			ft_atoi(const char *str);
 long long	get_time(void);
-long long	time_diff(long long prev, long long pres);
 void		ft_usleep(long long time, t_data *data);
 
 #endif

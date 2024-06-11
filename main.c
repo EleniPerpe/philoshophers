@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/11 11:39:17 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/11 11:49:46 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int main (int argc, char **argv)
 			printf("Not correct arguments so the program to run!\n");
 		if (init_args(argc, argv, &data) == 2)
 			printf("Fatal error when intializing mutex\n");	
+		if (threads(argc, argv, &data) == 3)
+			printf("Fatal error when creating the threads\n");	
 		return (0);
 	}
 	usleep(2);

@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/12 19:08:34 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/12 19:26:37 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void init_philosophers(t_data *data)
 	i = 0;
 	while (i < data->number_of_philo)
 	{
-		data->philosophers[i].id = i;
+		data->philosophers[i].id = i + 1;
 		data->philosophers[i].times_ate = 0;
 		data->philosophers[i].left_fork = i;
 		data->philosophers[i].right_fork = (i + 1) % data->number_of_philo;

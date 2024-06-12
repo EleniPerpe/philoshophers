@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:00:45 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/11 11:43:46 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/11 18:24:46 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,19 @@ long long	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
+long long	time_diff(long long prev, long long now)
+{
+	return (now - prev);
+}
+
 void ft_usleep(long long time, t_data *data)
 {
-	long long i;
+	long long start_time;
 
-	i = get_time();
+	start_time = get_time();
 	while (!(data->dead))
 	{
-		if ((get_time() - i) >= time)
+		if (time_diff(start_time, get_time()) >= time)
 			break ;
 		usleep(50);
 	}

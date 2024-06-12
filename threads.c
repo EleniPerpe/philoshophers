@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:49:54 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/11 17:02:04 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/12 18:38:35 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void *routine(void *temp_philo);
 void printing_move(t_data *data, int philo_id, char *string);
-void eating_time(t_philosopher *philo);
+void eating_time(t_data *data);
+void finish_program(t_data *data, t_philosopher *philo);
 
 int threads(t_data *data)
 {
@@ -27,45 +28,44 @@ int threads(t_data *data)
 	{
 		if (pthread_create(&(philo[i].thread_id), NULL, routine, &(philo[i])))
 			return (3);
+		philo[i].last_meal_time = get_time();
 		i++;
 	}
-	//    for (i = 0; i < data->number_of_philo; i++)
-    // {
-    //     if (pthread_join(philo[i].thread_id, NULL) != 0)
-    //     {
-    //         printf("Failed to join thread %d\n", i);
-    //         return (1);
-    //     }
-    // }
+	finish_program(data, philo);
 	return (0);
 }
 
-void *routine(void *temp_philo)
+void *routine(void *temp_data)
 {
 	t_philosopher *philo;
 	t_data *data;
 
-	philo = (t_philosopher *)temp_philo;
-	data = philo->data;
+	data = (t_data *)temp_data;
+	philo = data->philosophers;
 	if (philo->id % 2)
-		usleep(5000);
-	while (!(data->dead))
+		usleep(15000);
+	int i = 0;
+	while (!(data->dead) && i < 5)
 	{
-		eating_time(philo);
+	printf("Dead : %d\n", data->time_to_eat);
+		eating_time(data);
 		if (data->all_ate)
 			break ;
 		printing_move(data, philo->id, "is sleeping");
 		ft_usleep(data->time_to_sleep, data);
 		printing_move(data, philo->id, "is thinking");
+		i++;
 	}
 	return (NULL);
 }
 
-void eating_time(t_philosopher *philo)
+void eating_time(t_data *temp_data)
 {
+	t_philosopher *philo;
 	t_data *data;
 
-	data = philo->data;
+	data = (t_data *)temp_data;
+	philo = data->philosophers;
 	pthread_mutex_lock(&(data->forks[philo->left_fork]));
 	printing_move(data, philo->id, "has taken a fork");
 	pthread_mutex_lock(&(data->forks[philo->right_fork]));
@@ -80,10 +80,34 @@ void eating_time(t_philosopher *philo)
 	pthread_mutex_unlock(&(data->forks[philo->right_fork]));
 }
 
+//probably I'll remove it, I have to check if the extra control for dead philo os needed
+
 void printing_move(t_data *data, int philo_id, char *string)
 {
 	pthread_mutex_lock(&(data->printing));
 	if (!(data->dead))
-		printf("%lli %d %s\n", get_time() - data->first_timestamp, philo_id, string);
+	{
+		printf("%lli ", get_time() - data->first_timestamp);
+		printf("%i ", philo_id + 1);
+		printf("%s\n", string);
+	}
+		// printf("%lli %d %s\n", get_time() - data->first_timestamp, philo_id, string);
 	pthread_mutex_unlock(&(data->printing));
+
+}
+
+void finish_program(t_data *data, t_philosopher *philo)
+{
+	int i;
+	
+	i = 0;
+	while (i < data->number_of_philo)
+    {
+        pthread_join(philo[i].thread_id, NULL);
+		pthread_mutex_destroy(&(data->forks[i]));
+		i++;
+    }
+	pthread_mutex_destroy((&data->printing));
+	pthread_mutex_destroy((&data->moves_check));
+	
 }

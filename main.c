@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/12 18:24:59 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/12 19:08:34 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ int main (int argc, char **argv)
 		printf("Fatal error when intializing mutex\n");
 		return (0);
 	}
+	init_philosophers(&data);
 	if (threads(&data) != 0)
 	{
 		printf("Fatal error when creating the threads\n");
 		return (0);
 	}
-	init_philosophers(&data);
 	// printf("Time : %lld\n", get_time());
 	return (1);
 }
@@ -117,7 +117,7 @@ void init_philosophers(t_data *data)
 
 	// philos = data->philosophers;
 	i = 0;
-	while (i <= data->number_of_philo)
+	while (i < data->number_of_philo)
 	{
 		data->philosophers[i].id = i;
 		data->philosophers[i].times_ate = 0;

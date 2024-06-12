@@ -6,7 +6,7 @@
 #    By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/09 16:46:14 by eperperi          #+#    #+#              #
-#    Updated: 2024/06/12 18:37:33 by eperperi         ###   ########.fr        #
+#    Updated: 2024/06/12 19:06:09 by eperperi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC = cc #-g -fsanitize=thread
 
 # valgrind --tool=helgrind
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 INCLUDE	= -lpthread
 

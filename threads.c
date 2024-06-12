@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:49:54 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/12 18:38:35 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/12 18:54:27 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ int threads(t_data *data)
 
 	i = 0;
 	philo = data->philosophers;
+	printf("Time eat : %d\n", data->time_to_eat);
+	printf("Time sleep : %d\n", data->time_to_sleep);
+	printf("Time die : %d\n", data->time_to_die);
 	while (i < data->number_of_philo)
 	{
 		if (pthread_create(&(philo[i].thread_id), NULL, routine, &(philo[i])))
@@ -35,19 +38,22 @@ int threads(t_data *data)
 	return (0);
 }
 
-void *routine(void *temp_data)
+void *routine(void *temp_philo)
 {
-	t_philosopher *philo;
-	t_data *data;
+	t_philosopher *philo = (t_philosopher *)temp_philo;
+	t_data *data = philo->data;    
 
-	data = (t_data *)temp_data;
+	philo = (t_philosopher *)temp_philo;
 	philo = data->philosophers;
+	printf("Time eat : %d\n", data->time_to_eat);
+	printf("Time sleep : %d\n", data->time_to_sleep);
+	printf("Time die : %d\n", data->time_to_die);
 	if (philo->id % 2)
 		usleep(15000);
+	data->dead = 0;
 	int i = 0;
 	while (!(data->dead) && i < 5)
 	{
-	printf("Dead : %d\n", data->time_to_eat);
 		eating_time(data);
 		if (data->all_ate)
 			break ;
@@ -87,11 +93,11 @@ void printing_move(t_data *data, int philo_id, char *string)
 	pthread_mutex_lock(&(data->printing));
 	if (!(data->dead))
 	{
-		printf("%lli ", get_time() - data->first_timestamp);
-		printf("%i ", philo_id + 1);
-		printf("%s\n", string);
+		// printf("%lli ", get_time() - data->first_timestamp);
+		// printf("%i ", philo_id + 1);
+		// printf("%s\n", string);
+		printf("%lli %d %s\n", get_time() - data->first_timestamp, philo_id, string);
 	}
-		// printf("%lli %d %s\n", get_time() - data->first_timestamp, philo_id, string);
 	pthread_mutex_unlock(&(data->printing));
 
 }

@@ -6,22 +6,21 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:49:54 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 14:14:57 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:42:57 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void *routine(void *temp_philo);
-void printing_move(t_data *data, int philo_id, char *string);
-void eating_time(t_philosopher *philo);
-void finish_program(t_data *data, t_philosopher *philo);
-void	check_for_deads(t_data *data,t_philosopher *philo);
+void	*routine(void *temp_philo);
+void	eating_time(t_philosopher *philo);
+void	finish_program(t_data *data, t_philosopher *philo);
+void	check_for_deads(t_data *data, t_philosopher *philo);
 
-int threads(t_data *data)
+int	threads(t_data *data)
 {
-	int i;
-	t_philosopher *philo;
+	int				i;
+	t_philosopher	*philo;
 
 	i = 0;
 	philo = data->philosophers;
@@ -37,11 +36,11 @@ int threads(t_data *data)
 	return (0);
 }
 
-void *routine(void *temp_philo)
+void	*routine(void *temp_philo)
 {
-	t_philosopher *philo;
-	t_data *data;
-	
+	t_philosopher	*philo;
+	t_data			*data;
+
 	philo = (t_philosopher *)temp_philo;
 	data = philo->data;
 	if (philo->id % 2)
@@ -58,9 +57,9 @@ void *routine(void *temp_philo)
 	return (NULL);
 }
 
-void eating_time(t_philosopher *philo)
+void	eating_time(t_philosopher *philo)
 {
-	t_data *data;
+	t_data	*data;
 
 	data = philo->data;
 	pthread_mutex_lock(&(data->forks[philo->left_fork]));
@@ -68,7 +67,7 @@ void eating_time(t_philosopher *philo)
 	pthread_mutex_lock(&(data->forks[philo->right_fork]));
 	printing_move(data, philo->id, "has taken a fork");
 	pthread_mutex_lock(&(data->moves_check));
-	printing_move(data, philo->id, GREEN "is eating" RESET);
+	printing_move(data, philo->id, BOLD GREEN "is eating" RESET);
 	philo->last_meal_time = get_time();
 	pthread_mutex_unlock(&(data->moves_check));
 	ft_usleep(data->time_to_eat, data);
@@ -77,60 +76,46 @@ void eating_time(t_philosopher *philo)
 	pthread_mutex_unlock(&(data->forks[philo->right_fork]));
 }
 
-void printing_move(t_data *data, int philo_id, char *string)
+void	check_for_deads(t_data *d, t_philosopher *p)
 {
-	pthread_mutex_lock(&(data->printing));
-	if (!(data->flag_dead))
+	int	i;
+
+	while (d->flag_all_ate == 0)
 	{
-		printf("%lli %d %s\n", get_time() - data->first_timestamp, philo_id, string);
-	}
-	pthread_mutex_unlock(&(data->printing));
-
-}
-
-void	check_for_deads(t_data *data,t_philosopher *philo)
-{
-	int i;
-
-	while(data->flag_all_ate == 0)
-	{
-		i = 0;
-		while (i < data->number_of_philo && data->flag_dead == 0)
+		i = -1;
+		while (++i < d->number_of_philo && d->flag_dead == 0)
 		{
-			pthread_mutex_lock(&(data->moves_check));
-			if (time_diff(philo[i].last_meal_time, get_time()) > data->time_to_die)
+			pthread_mutex_lock(&(d->moves_check));
+			if (time_diff(p[i].last_meal_time, get_time()) > d->time_to_die)
 			{
-				printing_move(data, i, "died");
-				data->flag_dead = 1;
+				printing_move(d, i, UNDERLINE BOLD RED "DIED" RESET);
+				d->flag_dead = 1;
 			}
-			pthread_mutex_unlock(&(data->moves_check));
-			i++;
+			pthread_mutex_unlock(&(d->moves_check));
 			usleep(100);
 		}
-		if (data->flag_dead == 1)
+		if (d->flag_dead == 1)
 			break ;
 		i = 0;
-		while (data->times_to_eat != -1
-			&& i < data->number_of_philo && philo[i].times_ate >= data->times_to_eat)
+		while (d->times_to_eat != -1
+			&& i < d->number_of_philo && p[i].times_ate >= d->times_to_eat)
 			i++;
-		if (i == data->number_of_philo)
-			data->flag_all_ate = 1;
-		usleep(100);
+		if (i == d->number_of_philo)
+			d->flag_all_ate = 1;
 	}
 }
 
-
-void finish_program(t_data *data, t_philosopher *philo)
+void	finish_program(t_data *data, t_philosopher *philo)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (i < data->number_of_philo)
-    {
-        pthread_join(philo[i].thread_id, NULL);
+	{
+		pthread_join(philo[i].thread_id, NULL);
 		pthread_mutex_destroy(&(data->forks[i]));
 		i++;
-    }
+	}
 	pthread_mutex_destroy((&data->printing));
 	pthread_mutex_destroy((&data->moves_check));
 	free(data->philosophers);

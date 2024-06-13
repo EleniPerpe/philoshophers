@@ -6,20 +6,27 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 14:14:22 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:44:09 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <sys/time.h>
-#include <string.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <string.h>
 
+# define RESET "\033[0m"
+# define GREEN "\033[32m"
+# define YELLOW "\033[33m"
+# define MAGENTA "\033[35m"
+# define RED "\033[31m"
+# define BOLD "\033[1m"
+# define UNDERLINE "\033[4m"
 
 typedef struct s_philosopher
 {
@@ -30,8 +37,8 @@ typedef struct s_philosopher
 	long long		last_meal_time;
 	struct s_data	*data;
 	pthread_t		thread_id;
-	
-} t_philosopher;
+
+}	t_philosopher;
 
 typedef struct s_data
 {
@@ -47,16 +54,13 @@ typedef struct s_data
 	pthread_mutex_t	moves_check;
 	pthread_mutex_t	printing;
 	int				flag_all_ate;
-} t_data;
-
-#define RESET "\033[0m"
-#define GREEN "\033[32m"
+}	t_data;
 
 int			ft_atoi(const char *str);
 long long	get_time(void);
 void		ft_usleep(long long time, t_data *data);
 int			threads(t_data *data);
-void 		*routine(void *temp_philo);
 long long	time_diff(long long prev, long long now);
+void		printing_move(t_data *data, int philo_id, char *string);
 
 #endif

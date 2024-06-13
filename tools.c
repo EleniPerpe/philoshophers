@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:00:45 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 14:00:25 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:43:36 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ long long	time_diff(long long prev, long long now)
 	return (now - prev);
 }
 
-void ft_usleep(long long time, t_data *data)
+void	ft_usleep(long long time, t_data *data)
 {
-	long long start_time;
+	long long	start_time;
 
 	start_time = get_time();
 	while (!(data->flag_dead))
@@ -66,4 +66,15 @@ void ft_usleep(long long time, t_data *data)
 			break ;
 		usleep(50);
 	}
+}
+
+void	printing_move(t_data *data, int philo_id, char *string)
+{
+	pthread_mutex_lock(&(data->printing));
+	if (!(data->flag_dead))
+	{
+		printf("%lli %d %s\n",
+			get_time() - data->first_timestamp, philo_id, string);
+	}
+	pthread_mutex_unlock(&(data->printing));
 }

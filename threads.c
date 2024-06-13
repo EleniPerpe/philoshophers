@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:49:54 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/12 19:28:31 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:30:30 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void *routine(void *temp_philo)
 	if (philo->id % 2)
 		usleep(15000);
 	int i = 0;
-	while (!(data->dead) && i < 5)
+	while (!(data->dead) && i < 2)
 	{
 		eating_time(philo);
 		if (data->all_ate)

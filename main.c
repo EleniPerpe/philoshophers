@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/12 19:26:37 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:34:11 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int main (int argc, char **argv)
 		printf("Fatal error when creating the threads\n");
 		return (0);
 	}
-	// printf("Time : %lld\n", get_time());
 	return (1);
 }
 
@@ -63,6 +62,7 @@ int init_args(int argc, char **argv, t_data *data)
 	data->time_to_sleep = ft_atoi(argv[4]);
 	data->dead = 0;
 	data->all_ate = 0;
+	data->first_timestamp = get_time();
 	if (argc == 6)
 	{
 		data->times_to_eat = ft_atoi(argv[5]);

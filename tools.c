@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:00:45 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 14:43:36 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:58:31 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	printing_move(t_data *data, int philo_id, char *string)
 	pthread_mutex_lock(&(data->printing));
 	if (!(data->flag_dead))
 	{
-		printf("%lli %d %s\n",
+		printf(LIGHT_YELLOW "%lli " RESET "%d %s\n",
 			get_time() - data->first_timestamp, philo_id, string);
 	}
 	pthread_mutex_unlock(&(data->printing));

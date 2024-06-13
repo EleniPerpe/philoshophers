@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:49:54 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 14:42:57 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:56:11 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	*routine(void *temp_philo)
 		eating_time(philo);
 		if (data->flag_all_ate)
 			break ;
-		printing_move(data, philo->id, "is sleeping");
+		printing_move(data, philo->id, YELLOW "is sleeping" RESET);
 		ft_usleep(data->time_to_sleep, data);
-		printing_move(data, philo->id, "is thinking");
+		printing_move(data, philo->id, CYAN "is thinking" RESET);
 	}
 	return (NULL);
 }
@@ -63,9 +63,9 @@ void	eating_time(t_philosopher *philo)
 
 	data = philo->data;
 	pthread_mutex_lock(&(data->forks[philo->left_fork]));
-	printing_move(data, philo->id, "has taken a fork");
+	printing_move(data, philo->id, MAGENTA "has taken a fork" RESET);
 	pthread_mutex_lock(&(data->forks[philo->right_fork]));
-	printing_move(data, philo->id, "has taken a fork");
+	printing_move(data, philo->id, MAGENTA "has taken a fork" RESET);
 	pthread_mutex_lock(&(data->moves_check));
 	printing_move(data, philo->id, BOLD GREEN "is eating" RESET);
 	philo->last_meal_time = get_time();

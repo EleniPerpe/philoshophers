@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 14:44:09 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:57:53 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@
 # define GREEN "\033[32m"
 # define YELLOW "\033[33m"
 # define MAGENTA "\033[35m"
+# define CYAN "\x1b[36m"
 # define RED "\033[31m"
+# define LIGHT_YELLOW "\x1b[93m"
 # define BOLD "\033[1m"
 # define UNDERLINE "\033[4m"
 

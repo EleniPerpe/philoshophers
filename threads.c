@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:49:54 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 13:30:30 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:47:37 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ void eating_time(t_philosopher *philo)
 	pthread_mutex_unlock(&(data->forks[philo->right_fork]));
 }
 
-//probably I'll remove it, I have to check if the extra control for dead philo os needed
-
 void printing_move(t_data *data, int philo_id, char *string)
 {
 	pthread_mutex_lock(&(data->printing));
@@ -103,5 +101,6 @@ void finish_program(t_data *data, t_philosopher *philo)
     }
 	pthread_mutex_destroy((&data->printing));
 	pthread_mutex_destroy((&data->moves_check));
-	
+	free(data->philosophers);
+	free(data->forks);
 }

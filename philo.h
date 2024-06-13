@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/12 18:54:23 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:41:05 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct s_data
 	int				time_to_die;
 	int				dead;
 	long long		first_timestamp;
-	t_philosopher	philosophers[250];
-	pthread_mutex_t	forks[250];
+	t_philosopher	*philosophers;
+	pthread_mutex_t	*forks;
 	pthread_mutex_t	moves_check;
 	pthread_mutex_t	printing;
 	int				all_ate;

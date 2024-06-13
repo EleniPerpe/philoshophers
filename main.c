@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 13:34:11 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:47:18 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,22 @@ int init_args(int argc, char **argv, t_data *data);
 int init_mutexes(t_data *data);
 void init_philosophers(t_data *data);
 
-// void leaks()
-// {
-// 	system("leaks philosophers");
-// }
+void leaks()
+{
+	system("leaks philo");
+}
 
 int main (int argc, char **argv)
 {
 	t_data data;
 	
 
-	// atexit(&leaks);
+	atexit(&leaks);
 	if (argc != 5 && argc != 6 )
 	{
 		printf("Not the right amount of arguments!\n");
 		return (0);
 	}
-	// memset(&data, 0, sizeof(data));
-	// printf("Dead = %d", data->dead);
 
 	if (init_args(argc, argv, &data) != 0)
 	{
@@ -63,6 +61,12 @@ int init_args(int argc, char **argv, t_data *data)
 	data->dead = 0;
 	data->all_ate = 0;
 	data->first_timestamp = get_time();
+	data->philosophers = malloc(sizeof(t_philosopher) * data->number_of_philo);
+	if (data->philosophers == NULL)
+		return (1);
+	data->forks = malloc(sizeof(t_philosopher) * data->number_of_philo);
+	if (data->forks == NULL)
+		return (1);
 	if (argc == 6)
 	{
 		data->times_to_eat = ft_atoi(argv[5]);
@@ -112,19 +116,19 @@ int init_mutexes(t_data *data)
 }
 void init_philosophers(t_data *data)
 {
-	// t_philosopher *philos;
+	t_philosopher *philos;
 	int i;
 
-	// philos = data->philosophers;
+	philos = data->philosophers;
 	i = 0;
 	while (i < data->number_of_philo)
 	{
-		data->philosophers[i].id = i + 1;
-		data->philosophers[i].times_ate = 0;
-		data->philosophers[i].left_fork = i;
-		data->philosophers[i].right_fork = (i + 1) % data->number_of_philo;
-		data->philosophers[i].last_meal_time = 0;
-		data->philosophers[i].data = data;
+		philos[i].id = i + 1;
+		philos[i].times_ate = 0;
+		philos[i].left_fork = i;
+		philos[i].right_fork = (i + 1) % data->number_of_philo;
+		philos[i].last_meal_time = 0;
+		philos[i].data = data;
 		i++;
 	}
 }

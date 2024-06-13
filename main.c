@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 13:47:18 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:58:17 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int init_args(int argc, char **argv, t_data *data)
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
-	data->dead = 0;
-	data->all_ate = 0;
+	data->flag_dead = 0;
+	data->flag_all_ate = 0;
 	data->first_timestamp = get_time();
 	data->philosophers = malloc(sizeof(t_philosopher) * data->number_of_philo);
 	if (data->philosophers == NULL)
@@ -73,6 +73,8 @@ int init_args(int argc, char **argv, t_data *data)
 		if (data->times_to_eat <= 0)
 			return (1);
 	}
+	else
+		data->times_to_eat = -1;
 	if (data->number_of_philo < 2 || data->number_of_philo >= 250 || data->time_to_die <= 0
 		|| data->time_to_eat <= 0|| data->time_to_sleep <= 0)
 		return (1);

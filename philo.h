@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 13:41:05 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:14:22 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,17 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				times_to_eat;
 	int				time_to_die;
-	int				dead;
+	int				flag_dead;
 	long long		first_timestamp;
 	t_philosopher	*philosophers;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	moves_check;
 	pthread_mutex_t	printing;
-	int				all_ate;
+	int				flag_all_ate;
 } t_data;
 
+#define RESET "\033[0m"
+#define GREEN "\033[32m"
 
 int			ft_atoi(const char *str);
 long long	get_time(void);

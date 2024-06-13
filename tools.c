@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:00:45 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/11 18:24:46 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:00:25 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void ft_usleep(long long time, t_data *data)
 	long long start_time;
 
 	start_time = get_time();
-	while (!(data->dead))
+	while (!(data->flag_dead))
 	{
 		if (time_diff(start_time, get_time()) >= time)
 			break ;

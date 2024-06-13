@@ -6,18 +6,18 @@
 #    By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/09 16:46:14 by eperperi          #+#    #+#              #
-#    Updated: 2024/06/12 19:06:09 by eperperi         ###   ########.fr        #
+#    Updated: 2024/06/13 15:13:16 by eperperi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #.SILENT:
 
-CC = cc #-g -fsanitize=thread
+CC = clang -g -fsanitize=thread
 
 
 # valgrind --tool=helgrind
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 INCLUDE	= -lpthread
 

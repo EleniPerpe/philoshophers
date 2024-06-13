@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:49:54 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 14:56:11 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/13 15:34:46 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,12 @@ void	check_for_deads(t_data *d, t_philosopher *p)
 			if (time_diff(p[i].last_meal_time, get_time()) > d->time_to_die)
 			{
 				printing_move(d, i, UNDERLINE BOLD RED "DIED" RESET);
+				pthread_mutex_lock(&(d->flag_dead_mutex));
 				d->flag_dead = 1;
+				pthread_mutex_unlock(&(d->flag_dead_mutex));
 			}
-			pthread_mutex_unlock(&(d->moves_check));
 			usleep(100);
+			pthread_mutex_unlock(&(d->moves_check));
 		}
 		if (d->flag_dead == 1)
 			break ;

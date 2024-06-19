@@ -6,13 +6,13 @@
 #    By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/09 16:46:14 by eperperi          #+#    #+#              #
-#    Updated: 2024/06/13 15:13:16 by eperperi         ###   ########.fr        #
+#    Updated: 2024/06/19 16:30:59 by eperperi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #.SILENT:
 
-CC = clang -g -fsanitize=thread
+CC = cc -g #-fsanitize=thread
 
 
 # valgrind --tool=helgrind

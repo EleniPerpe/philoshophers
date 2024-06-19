@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 15:18:26 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:04:17 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philosopher
 	int				left_fork;
 	int				right_fork;
 	long long		last_meal_time;
+	pthread_mutex_t	last_meal_mutex;
 	struct s_data	*data;
 	pthread_t		thread_id;
 

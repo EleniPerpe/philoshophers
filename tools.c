@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:00:45 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 14:58:31 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:13:04 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,15 @@ void	ft_usleep(long long time, t_data *data)
 	long long	start_time;
 
 	start_time = get_time();
-	while (!(data->flag_dead))
+	while (1)
 	{
+		pthread_mutex_lock(&(data->flag_dead_mutex));
+		if (data->flag_dead)
+		{
+			pthread_mutex_unlock(&(data->flag_dead_mutex));
+			break ;
+		}
+		pthread_mutex_unlock(&(data->flag_dead_mutex));
 		if (time_diff(start_time, get_time()) >= time)
 			break ;
 		usleep(50);
@@ -71,10 +78,12 @@ void	ft_usleep(long long time, t_data *data)
 void	printing_move(t_data *data, int philo_id, char *string)
 {
 	pthread_mutex_lock(&(data->printing));
+	pthread_mutex_lock(&(data->flag_dead_mutex));
 	if (!(data->flag_dead))
 	{
 		printf(LIGHT_YELLOW "%lli " RESET "%d %s\n",
 			get_time() - data->first_timestamp, philo_id, string);
 	}
+	pthread_mutex_unlock(&(data->flag_dead_mutex));
 	pthread_mutex_unlock(&(data->printing));
 }

@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/13 15:04:18 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:02:07 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		init_args(int argc, char **argv, t_data *data);
 int		init_mutexes(t_data *data);
-void	init_philosophers(t_data *data);
+int		init_philosophers(t_data *data);
 void	mutex_error(t_data *data);
 
 int	main(int argc, char **argv)
@@ -31,17 +31,12 @@ int	main(int argc, char **argv)
 		printf("Not correct arguments so the program to run!\n");
 		return (0);
 	}
+	if (init_philosophers(&data) != 0)
+		return (printf("Fatal error when intializing mutex\n"), 0);
 	if (init_mutexes(&data) != 0)
-	{
-		printf("Fatal error when intializing mutex\n");
-		return (0);
-	}
-	init_philosophers(&data);
+		return (printf("Fatal error when intializing mutex\n"), 0);
 	if (threads(&data) != 0)
-	{
-		printf("Fatal error when creating the threads\n");
-		return (0);
-	}
+		return (printf("Fatal error when creating the threads\n"), 0);
 	return (1);
 }
 
@@ -57,7 +52,7 @@ int	init_args(int argc, char **argv, t_data *data)
 	data->philosophers = malloc(sizeof(t_philosopher) * data->number_of_philo);
 	if (data->philosophers == NULL)
 		return (1);
-	data->forks = malloc(sizeof(t_philosopher) * data->number_of_philo);
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->number_of_philo);
 	if (data->forks == NULL)
 		return (1);
 	if (argc == 6)
@@ -76,32 +71,32 @@ int	init_args(int argc, char **argv, t_data *data)
 
 int	init_mutexes(t_data *data)
 {
-	int	i;
+	int				i;
 
 	i = 0;
 	while (i < data->number_of_philo)
 	{
-		if (pthread_mutex_init(&(data->forks[i]), NULL))
+		if (pthread_mutex_init(&(data->forks[i]), NULL) != 0)
 		{
 			mutex_error(data);
 			return (1);
 		}
 		i++;
 	}
-	if (pthread_mutex_init(&(data->printing), NULL) != 0)
+	if (pthread_mutex_init(&(data->printing), NULL) != 0
+		|| pthread_mutex_init(&(data->moves_check), NULL) != 0
+		|| pthread_mutex_init(&(data->flag_dead_mutex), NULL) != 0)
 	{
-		mutex_error(data);
-		return (1);
-	}
-	if (pthread_mutex_init(&(data->moves_check), NULL))
-	{
+		pthread_mutex_destroy(&(data->printing));
+		pthread_mutex_destroy(&(data->moves_check));
+		pthread_mutex_destroy(&(data->flag_dead_mutex));
 		mutex_error(data);
 		return (1);
 	}
 	return (0);
 }
 
-void	init_philosophers(t_data *data)
+int	init_philosophers(t_data *data)
 {
 	t_philosopher	*philos;
 	int				i;
@@ -116,8 +111,18 @@ void	init_philosophers(t_data *data)
 		philos[i].right_fork = (i + 1) % data->number_of_philo;
 		philos[i].last_meal_time = 0;
 		philos[i].data = data;
+		if (pthread_mutex_init(&(philos[i].last_meal_mutex), NULL) != 0)
+		{
+			while (i >= 0)
+			{
+				pthread_mutex_destroy(&(data->philosophers[i].last_meal_mutex));
+				i--;
+			}
+			return (1);
+		}
 		i++;
 	}
+	return (0);
 }
 
 void	mutex_error(t_data *data)
@@ -126,10 +131,11 @@ void	mutex_error(t_data *data)
 
 	i = 0;
 	printf("Failed to initialize mutexes\n");
-	while (i > 0)
+	while (i < data->number_of_philo)
 	{
 		pthread_mutex_destroy(&(data->forks[i]));
-		i--;
+		pthread_mutex_destroy(&(data->philosophers[i].last_meal_mutex));
+		i++;
 	}
 	free(data->forks);
 }

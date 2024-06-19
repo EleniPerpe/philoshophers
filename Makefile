@@ -6,7 +6,7 @@
 #    By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/09 16:46:14 by eperperi          #+#    #+#              #
-#    Updated: 2024/06/19 16:30:59 by eperperi         ###   ########.fr        #
+#    Updated: 2024/06/19 20:32:41 by eperperi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,4 +43,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY:  all clean fclean re bonus
+.PHONY:  all clean fclean re

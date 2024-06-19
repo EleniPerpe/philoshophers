@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:49:54 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/19 18:18:03 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:31:53 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,21 @@ void	*routine(void *temp_philo)
 		usleep(15000);
 	while (1)
 	{
+		pthread_mutex_lock(&(data->flag_dead_mutex));
 		if (data->flag_dead != 0)
+		{
+			pthread_mutex_unlock(&(data->flag_dead_mutex));
 			break ;
+		}
+		pthread_mutex_unlock(&(data->flag_dead_mutex));
 		eating_time(philo);
+		pthread_mutex_lock(&(data->flag_ate_mutex));
 		if (data->flag_all_ate)
+		{
+			pthread_mutex_unlock(&(data->flag_ate_mutex));
 			break ;
+		}
+		pthread_mutex_unlock(&(data->flag_ate_mutex));
 		printing_move(data, philo->id, YELLOW "is sleeping" RESET);
 		ft_usleep(data->time_to_sleep, data);
 		printing_move(data, philo->id, CYAN "is thinking" RESET);
@@ -78,7 +88,9 @@ void	eating_time(t_philosopher *philo)
 	pthread_mutex_unlock(&(philo->last_meal_mutex));
 	pthread_mutex_unlock(&(data->moves_check));
 	ft_usleep(data->time_to_eat, data);
+	pthread_mutex_lock(&(data->times_ate_mutex));
 	philo->times_ate++;
+	pthread_mutex_unlock(&(data->times_ate_mutex));
 	pthread_mutex_unlock(&(data->forks[philo->left_fork]));
 	pthread_mutex_unlock(&(data->forks[philo->right_fork]));
 }
@@ -87,13 +99,23 @@ void	check_for_deads(t_data *d, t_philosopher *p)
 {
 	int	i;
 
-	while (d->flag_all_ate == 0)
+	while (1)
 	{
+		pthread_mutex_lock(&(d->flag_ate_mutex));
+		if (d->flag_all_ate != 0)
+		{
+			pthread_mutex_unlock(&(d->flag_ate_mutex));
+			break ;
+		}
 		while (d->times_to_eat != -1
-			&& i < d->number_of_philo && p[i].times_ate >= d->times_to_eat)
+			&& i < d->number_of_philo && p[i].times_ate >= d->times_to_eat - 1)
 			i++;
 		if (i == d->number_of_philo)
+		{
+			pthread_mutex_lock(&(d->flag_ate_mutex));
 			d->flag_all_ate = 1;
+			pthread_mutex_unlock(&(d->flag_ate_mutex));
+		}
 		i = -1;
 		while (++i < d->number_of_philo)
 		{

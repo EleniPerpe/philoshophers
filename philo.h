@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/19 17:04:17 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:28:06 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct s_data
 	pthread_mutex_t	moves_check;
 	pthread_mutex_t	printing;
 	pthread_mutex_t	flag_dead_mutex;
+	pthread_mutex_t	flag_ate_mutex;
+	pthread_mutex_t	times_ate_mutex;
 	int				flag_all_ate;
 }	t_data;
 

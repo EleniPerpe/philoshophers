@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/19 18:02:07 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:28:54 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,13 @@ int	init_mutexes(t_data *data)
 	}
 	if (pthread_mutex_init(&(data->printing), NULL) != 0
 		|| pthread_mutex_init(&(data->moves_check), NULL) != 0
-		|| pthread_mutex_init(&(data->flag_dead_mutex), NULL) != 0)
+		|| pthread_mutex_init(&(data->flag_dead_mutex), NULL) != 0
+		|| pthread_mutex_init(&(data->times_ate_mutex), NULL) != 0)
 	{
 		pthread_mutex_destroy(&(data->printing));
 		pthread_mutex_destroy(&(data->moves_check));
 		pthread_mutex_destroy(&(data->flag_dead_mutex));
+		pthread_mutex_destroy(&(data->times_ate_mutex));
 		mutex_error(data);
 		return (1);
 	}

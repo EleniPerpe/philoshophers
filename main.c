@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/20 15:59:51 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:20:26 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int		init_mutexes(t_data *data);
 int		init_philosophers(t_data *data);
 void	mutex_error(t_data *data);
 int		keep_init(t_data *data);
+int		check_for_one(t_data *data);
 
 int	main(int argc, char **argv)
 {
@@ -34,11 +35,31 @@ int	main(int argc, char **argv)
 	}
 	if (init_philosophers(&data) != 0)
 		return (printf("Fatal error when intializing mutex\n"), 0);
+	if (check_for_one(&data) != 0)
+		return (1);
 	if (init_mutexes(&data) != 0)
 		return (printf("Fatal error when intializing mutex\n"), 0);
 	if (threads(&data) != 0)
 		return (printf("Fatal error when creating the threads\n"), 0);
 	return (1);
+}
+
+int	check_for_one(t_data *data)
+{
+	int				i;
+
+	i = 0;
+	if (data->number_of_philo == 1)
+	{
+		printing_move(data, 1, UNDERLINE BOLD RED "PHILO DIED" RESET);
+		while (i < data->number_of_philo)
+		{
+			pthread_mutex_destroy(&(data->philosophers[i].last_meal_mutex));
+			i++;
+		}
+		return (1);
+	}
+	return (0);
 }
 
 int	init_args(int argc, char **argv, t_data *data)
@@ -64,7 +85,7 @@ int	init_args(int argc, char **argv, t_data *data)
 	}
 	else
 		data->times_to_eat = -1;
-	if (data->number_of_philo < 2 || data->time_to_die <= 0
+	if (data->number_of_philo < 1 || data->time_to_die <= 0
 		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0)
 		return (1);
 	return (0);
@@ -86,16 +107,11 @@ int	init_mutexes(t_data *data)
 			mutex_error(data), 1);
 	if (pthread_mutex_init(&(data->moves_check), NULL) != 0)
 		return (pthread_mutex_destroy(&(data->moves_check)),
-			mutex_error(data), 1);
+			pthread_mutex_destroy(&(data->printing)), mutex_error(data), 1);
 	if (pthread_mutex_init(&(data->flag_dead_mutex), NULL) != 0)
 		return (pthread_mutex_destroy(&(data->flag_dead_mutex)),
-			mutex_error(data), 1);
-	// if (pthread_mutex_init(&(data->times_ate_mutex), NULL) != 0)
-	// 	return (pthread_mutex_destroy(&(data->times_ate_mutex)),
-	// 		mutex_error(data), 1);
-	// if (pthread_mutex_init(&(data->flag_ate_mutex), NULL) != 0)
-	// 	return (pthread_mutex_destroy(&(data->flag_ate_mutex)),
-	// 		mutex_error(data), 1);
+			pthread_mutex_destroy(&(data->moves_check)),
+			pthread_mutex_destroy(&(data->printing)), mutex_error(data), 1);
 	if (keep_init(data))
 		return (1);
 	return (0);
@@ -105,9 +121,16 @@ int	keep_init(t_data *data)
 {
 	if (pthread_mutex_init(&(data->times_ate_mutex), NULL) != 0)
 		return (pthread_mutex_destroy(&(data->times_ate_mutex)),
+			pthread_mutex_destroy(&(data->flag_dead_mutex)),
+			pthread_mutex_destroy(&(data->moves_check)),
+			pthread_mutex_destroy(&(data->printing)),
 			mutex_error(data), 1);
 	if (pthread_mutex_init(&(data->flag_ate_mutex), NULL) != 0)
 		return (pthread_mutex_destroy(&(data->flag_ate_mutex)),
+			pthread_mutex_destroy(&(data->times_ate_mutex)),
+			pthread_mutex_destroy(&(data->flag_dead_mutex)),
+			pthread_mutex_destroy(&(data->moves_check)),
+			pthread_mutex_destroy(&(data->printing)),
 			mutex_error(data), 1);
 	return (0);
 }
@@ -154,4 +177,5 @@ void	mutex_error(t_data *data)
 		i++;
 	}
 	free(data->forks);
+	free(data->philosophers);
 }

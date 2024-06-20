@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:49:54 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/20 15:36:18 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:17:43 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	keep_checking(t_data *d, t_philosopher *p)
 		pthread_mutex_lock(&(p->last_meal_mutex));
 		if (time_diff(p[i].last_meal_time, get_time()) > d->time_to_die)
 		{
-			printing_move(d, i, UNDERLINE BOLD RED "ALL DIED" RESET);
+			printing_move(d, i, UNDERLINE BOLD RED "PHILO DIED" RESET);
 			pthread_mutex_lock(&(d->flag_dead_mutex));
 			d->flag_dead = 1;
 			pthread_mutex_unlock(&(d->flag_dead_mutex));
@@ -182,9 +182,11 @@ void	finish_program(t_data *data, t_philosopher *philo)
 		pthread_mutex_destroy(&philo[i].last_meal_mutex);
 		i++;
 	}
-	pthread_mutex_destroy((&data->printing));
 	pthread_mutex_destroy((&data->moves_check));
+	pthread_mutex_destroy((&data->printing));
 	pthread_mutex_destroy((&data->flag_dead_mutex));
+	pthread_mutex_destroy((&data->flag_ate_mutex));
+	pthread_mutex_destroy((&data->times_ate_mutex));
 	free(data->philosophers);
 	free(data->forks);
 }

@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:08 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/20 16:20:26 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:29:34 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int		init_philosophers(t_data *data);
 void	mutex_error(t_data *data);
 int		keep_init(t_data *data);
 int		check_for_one(t_data *data);
+int	check_args(int argc, char **argv);
 
 int	main(int argc, char **argv)
 {
@@ -28,9 +29,13 @@ int	main(int argc, char **argv)
 		printf("Not the right amount of arguments!\n");
 		return (0);
 	}
+	if (check_args(argc, argv))
+		return (printf("Characters are not allowed\n"), 0);
 	if (init_args(argc, argv, &data) != 0)
 	{
 		printf("Not correct arguments so the program to run!\n");
+		free(data.philosophers);
+		free(data.forks);
 		return (0);
 	}
 	if (init_philosophers(&data) != 0)
@@ -44,6 +49,26 @@ int	main(int argc, char **argv)
 	return (1);
 }
 
+int	check_args(int argc, char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (i < argc)
+	{
+		j = 0;
+		while (argv[i][j] != '\0')
+		{
+			if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	check_for_one(t_data *data)
 {
 	int				i;
@@ -51,12 +76,17 @@ int	check_for_one(t_data *data)
 	i = 0;
 	if (data->number_of_philo == 1)
 	{
-		printing_move(data, 1, UNDERLINE BOLD RED "PHILO DIED" RESET);
+		printf(LIGHT_YELLOW "0 " RESET "1 %s\n",
+			MAGENTA "has taken a fork" RESET);
+		printf(LIGHT_YELLOW "%d " RESET "1 %s\n",
+			data->time_to_die, UNDERLINE BOLD RED "PHILO DIED" RESET);
 		while (i < data->number_of_philo)
 		{
 			pthread_mutex_destroy(&(data->philosophers[i].last_meal_mutex));
 			i++;
 		}
+		free(data->philosophers);
+		free(data->forks);
 		return (1);
 	}
 	return (0);

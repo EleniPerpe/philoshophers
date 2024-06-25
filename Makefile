@@ -6,7 +6,7 @@
 #    By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/09 16:46:14 by eperperi          #+#    #+#              #
-#    Updated: 2024/06/20 16:03:45 by eperperi         ###   ########.fr        #
+#    Updated: 2024/06/25 13:41:33 by eperperi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 INCLUDE	= -lpthread
 
-SRCS = main.c tools.c threads.c
+SRCS = main.c tools.c threads.c dead_check.c init.c
 
 OFILES = $(SRCS:.c=.o)
 

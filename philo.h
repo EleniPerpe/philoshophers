@@ -6,7 +6,7 @@
 /*   By: eperperi <eperperi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:47:41 by eperperi          #+#    #+#             */
-/*   Updated: 2024/06/20 16:17:42 by eperperi         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:42:30 by eperperi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,10 @@ void		ft_usleep(long long time, t_data *data);
 int			threads(t_data *data);
 long long	time_diff(long long prev, long long now);
 void		printing_move(t_data *data, int philo_id, char *string);
+void		check_for_deads(t_data *d, t_philosopher *p);
+int			init_args(int argc, char **argv, t_data *data);
+int			init_mutexes(t_data *data);
+int			init_philosophers(t_data *data);
+int			keep_init(t_data *data);
 
 #endif
